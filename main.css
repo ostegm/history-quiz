@@ -1,5 +1,5 @@
 html {
-  background: url(./assets/background.jpg) no-repeat center center fixed; 
+  background: url(https://cdn.pixabay.com/photo/2017/01/26/21/32/background-2011768_1280.jpg) no-repeat center center fixed; 
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -222,10 +222,13 @@ label:hover, label:focus {
     padding: 20px;
     width: 40%;
     font-size: 26px;
+    border-radius: 3%;
+    text-align: center;
+
 }
 
 .modal-content a {
-  color: grey;
+  color: #C8C8C8;
   text-decoration: none;
 }
 
