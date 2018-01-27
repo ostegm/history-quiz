@@ -24,13 +24,17 @@ function checkAnswer() {
 function showCorrect(selectedCorrectly) {
   // Modify the background color of the answers to indicate green for a correct
   // answer, red for an incorrect answer, and grey for all other choices.
+  // Additionally, show some text next to the answes indicating correct answers. 
   if (selectedCorrectly === true) {
     $('input[name=q1]').parent().css('background-color', notSelectedColor);
     $('input[name=q1]:checked').parent().css('background-color', correctColor);
+    $('input[name=q1]:checked').parent().append('<span class="answer-indicator">You got it correct!</span');
 
   } else {
+    let correctAnswer = QUESTIONS[STORE.currentQuestion].correctAnswer
     $('input[name=q1]').parent().css('background-color', notSelectedColor);
     $('input[name=q1]:checked').parent().css('background-color', incorrectColor);
+    $('input[name=q1]:checked').parent().append(`<span class="answer-indicator">Sorry, that's incorrect. The correct answer was "${correctAnswer}"</span>`);
     $('input[name=q1][correct=true]').parent().css('background-color', correctColor);
   }
 }
@@ -41,21 +45,23 @@ function generateQuestionTemplate(question) {
   const shuffledAnswers =  _.shuffle(question.answers);
   const correctList = shuffledAnswers.map(a => a === question.correctAnswer);
   return `
-        <h2 class="question">${question.text}</h2>
-        <form>
-          <label for="option-1">
-          <input type="radio" name="q1" id="option-1" value="${shuffledAnswers[0]}" correct="${correctList[0]}">
-          <span>${shuffledAnswers[0]}</span></label>
-          <label for="option-2">
-          <input type="radio" name="q1" id="option-2" value="${shuffledAnswers[1]}" correct="${correctList[1]}">
-          <span>${shuffledAnswers[1]}</span></label>
-          <label for="option-3">
-          <input type="radio" name="q1" id="option-3" value="${shuffledAnswers[2]}" correct="${correctList[2]}">
-          <span>${shuffledAnswers[2]}</span></label>
-          <label for="option-4">
-          <input type="radio" name="q1" id="option-4" value="${shuffledAnswers[3]}" correct="${correctList[3]}">
-          <span>${shuffledAnswers[3]}</span></label>
-        </form>
+        <fieldset name="quiz-question">
+          <legend class="question">${question.text}</legend>
+          <form>
+            <label for="option-1">
+            <input type="radio" name="q1" id="option-1" value="${shuffledAnswers[0]}" correct="${correctList[0]}">
+            <span>${shuffledAnswers[0]}</span></label>
+            <label for="option-2">
+            <input type="radio" name="q1" id="option-2" value="${shuffledAnswers[1]}" correct="${correctList[1]}">
+            <span>${shuffledAnswers[1]}</span></label>
+            <label for="option-3">
+            <input type="radio" name="q1" id="option-3" value="${shuffledAnswers[2]}" correct="${correctList[2]}">
+            <span>${shuffledAnswers[2]}</span></label>
+            <label for="option-4">
+            <input type="radio" name="q1" id="option-4" value="${shuffledAnswers[3]}" correct="${correctList[3]}">
+            <span>${shuffledAnswers[3]}</span></label>
+          </form>
+        </fieldset>
       </div>
   `;
 }
