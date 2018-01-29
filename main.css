@@ -108,6 +108,18 @@ li {
 	text-align: center
 }
 
+legend {
+  font-size: 24px;
+}
+
+fieldset {
+  border: none;
+}
+
+.answer-indicator {
+  margin-left: 35px;
+}
+
 input {
   -webkit-appearance: none;
   -moz-appearance: none;
