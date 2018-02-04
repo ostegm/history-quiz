@@ -33,7 +33,7 @@ function showCorrect(selectedCorrectly) {
       .append('<span class="answer-indicator">You got it correct!</span');
 
   } else {
-    let correctAnswer = QUESTIONS[STORE.currentQuestion].correctAnswer;
+    const correctAnswer = QUESTIONS[STORE.currentQuestion].correctAnswer;
     $('input[name=q1]').parent().css('background-color', notSelectedColor);
     $('input[name=q1]:checked').parent().css('background-color', incorrectColor);
     $('input[name=q1]:checked')
@@ -89,7 +89,7 @@ function generateHeaderResultsTemplate() {
   // Populates the HTML used to display the user's progress in the header bar.
   const qText = `${STORE.currentQuestion + 1} / ${QUESTIONS.length}`;
   const correctText = `Score: ${STORE.correct}`;
-  let resultsHtml = `
+  const resultsHtml = `
       <h1 class="col-3">History Quiz</h1>
       <ul>
         <li>Question ${qText}</li>
@@ -101,8 +101,7 @@ function generateHeaderResultsTemplate() {
 
 function generateQuizNavTemplate() {
   // Function to create the HTML used below the form for navigation.
-  let navHtml = `<div class="col-12 quiz-nav-item">${getNavButton()}</div>`;
-  return navHtml;
+  return `<div class="col-12 quiz-nav-item">${getNavButton()}</div>`;
 }
 
 function generateResultsTemplate() {
