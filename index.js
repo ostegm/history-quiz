@@ -2,6 +2,10 @@
 
 $(function () {
 
+  const TEMPLATES = {
+    questionTemplate: Handlebars.compile(document.getElementById('questionTemplate').innerHTML),
+  };
+
   const QUESTIONS = _.shuffle(originalQuestions);
   const incorrectColor = '#EA4335';
   const correctColor = '#34A853';
@@ -50,26 +54,12 @@ $(function () {
     // question.
     const shuffledAnswers =  _.shuffle(question.answers);
     const correctList = shuffledAnswers.map(a => a === question.correctAnswer);
-    return `
-          <fieldset name="quiz-question">
-            <legend class="question">${question.text}</legend>
-            <form>
-              <label for="option-1">
-              <input type="radio" name="q1" id="option-1" value="${shuffledAnswers[0]}" correct="${correctList[0]}">
-              <span>${shuffledAnswers[0]}</span></label>
-              <label for="option-2">
-              <input type="radio" name="q1" id="option-2" value="${shuffledAnswers[1]}" correct="${correctList[1]}">
-              <span>${shuffledAnswers[1]}</span></label>
-              <label for="option-3">
-              <input type="radio" name="q1" id="option-3" value="${shuffledAnswers[2]}" correct="${correctList[2]}">
-              <span>${shuffledAnswers[2]}</span></label>
-              <label for="option-4">
-              <input type="radio" name="q1" id="option-4" value="${shuffledAnswers[3]}" correct="${correctList[3]}">
-              <span>${shuffledAnswers[3]}</span></label>
-            </form>
-          </fieldset>
-        </div>
-    `;
+    const data = {
+      questionText: question.Text,
+      shuffledAnswers: shuffledAnswers,
+      correctList: correctList
+    }
+    return TEMPLATES.questionTemplate(data);
   }
 
   function getNavButton() {
