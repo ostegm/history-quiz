@@ -2,10 +2,6 @@
 
 $(function () {
 
-  const TEMPLATES = {
-    questionTemplate: Handlebars.compile(document.getElementById('questionTemplate').innerHTML),
-  };
-
   const QUESTIONS = _.shuffle(originalQuestions);
   const incorrectColor = '#EA4335';
   const correctColor = '#34A853';
@@ -15,6 +11,16 @@ $(function () {
     currentQuestion: 0,
     state: 'start',
     correct: 0,
+  };
+
+  function compileTemplate(templateId) {
+    return Handlebars.compile(document.getElementById(templateId).innerHTML);
+  }
+
+  const TEMPLATES = {
+    questionTemplate: compileTemplate('questionTemplate'),
+    modalTemplate: compileTemplate('modalTemplate'),
+    headerResultsTemplate: compileTemplate('headerResultsTemplate'),
   };
 
   function checkAnswer() {
@@ -57,8 +63,9 @@ $(function () {
     const data = {
       questionText: question.Text,
       shuffledAnswers: shuffledAnswers,
-      correctList: correctList
-    }
+      correctList: correctList,
+    };
+
     return TEMPLATES.questionTemplate(data);
   }
 
@@ -79,16 +86,11 @@ $(function () {
 
   function generateHeaderResultsTemplate() {
     // Populates the HTML used to display the user's progress in the header bar.
-    const qText = `${STORE.currentQuestion + 1} / ${QUESTIONS.length}`;
-    const correctText = `Score: ${STORE.correct}`;
-    const resultsHtml = `
-        <h1 class="col-3">History Quiz</h1>
-        <ul>
-          <li>Question ${qText}</li>
-          <li>${correctText}</li>
-        </ul>
-    `;
-    return resultsHtml;
+    const data = {
+      qText: `${STORE.currentQuestion + 1} / ${QUESTIONS.length}`,
+      correctText: `Score: ${STORE.correct}`,
+    };
+    return TEMPLATES.headerResultsTemplate(data);
   }
 
   function generateQuizNavTemplate() {
@@ -98,13 +100,7 @@ $(function () {
 
   function generateResultsTemplate() {
     // Generates the contents of a results pop out modal.
-    return `
-    <div class="modal-content">
-      <span>Thanks for playing, you got ${STORE.correct} questions right.<br><br>
-      <a href="">Try again?</a></span>
-      <span class="js-close-modal">&times;</span>
-    </div>
-    `;
+    return TEMPLATES.modalTemplate({ numberCorrect: STORE.correct });
   }
 
   function renderQuestion() {
