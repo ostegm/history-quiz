@@ -61,11 +61,11 @@ $(function () {
     const shuffledAnswers =  _.shuffle(question.answers);
     const correctList = shuffledAnswers.map(a => a === question.correctAnswer);
     const data = {
-      questionText: question.Text,
+      questionText: question.text,
       shuffledAnswers: shuffledAnswers,
       correctList: correctList,
     };
-
+    console.log(data)
     return TEMPLATES.questionTemplate(data);
   }
 
