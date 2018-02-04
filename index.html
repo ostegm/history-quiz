@@ -24,8 +24,52 @@
       <div class="js-results-modal hidden"></div>
     </div>
   </main>
+    
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    
+    <!-- Templates -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.js"></script>
+    <script id="questionTemplate" type="text/x-handlebars-template">
+      <fieldset name="quiz-question">
+        <legend class="question">{{questionText}}</legend>
+        <form>
+          <label for="option-1">
+          <input type="radio" name="q1" id="option-1" value="{{shuffledAnswers.[0]}}" correct="{{correctList.[0]}}">
+          <span>{{shuffledAnswers.[0]}}</span></label>
+          <label for="option-2">
+          <input type="radio" name="q1" id="option-2" value="{{shuffledAnswers.[1]}}" correct="{{correctList.[1]}}">
+          <span>{{shuffledAnswers.[1]}}</span></label>
+          <label for="option-3">
+          <input type="radio" name="q1" id="option-3" value="{{shuffledAnswers.[2]}}" correct="{{correctList.[2]}}">
+          <span>{{shuffledAnswers.[2]}}</span></label>
+          <label for="option-4">
+          <input type="radio" name="q1" id="option-4" value="{{shuffledAnswers.[3]}}" correct="{{correctList.[3]}}">
+          <span>{{shuffledAnswers.[3]}}</span></label>
+        </form>
+      </fieldset>
+    </script>
+    
+    <script id="modalTemplate" type="text/x-handlebars-template">
+      <div class="modal-content">
+        <span>Thanks for playing, you got {{numberCorrect}} questions right.<br><br>
+        <a href="">Try again?</a></span>
+        <span class="js-close-modal">&times;</span>
+      </div>
+    </script>
+    
+    <script id="buttonTemplate" type="text/x-handlebars-template">
+      <button class="js-next-question" type="button">{{text}}</button>
+    </script>
+
+    <script id="headerResultsTemplate" type="text/x-handlebars-template">
+      <h1 class="col-3">History Quiz</h1>
+      <ul>
+        <li>Question {{qText}}</li>
+        <li>{{correctText}}</li>
+      </ul>
+    </script>
+
     <script type="text/javascript" src="questions.js"></script>
     <script type="text/javascript" src="index.js"></script>
 </body>

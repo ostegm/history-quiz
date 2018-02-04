@@ -13,6 +13,16 @@ $(function () {
     correct: 0,
   };
 
+  function compileTemplate(templateId) {
+    return Handlebars.compile(document.getElementById(templateId).innerHTML);
+  }
+
+  const TEMPLATES = {
+    questionTemplate: compileTemplate('questionTemplate'),
+    modalTemplate: compileTemplate('modalTemplate'),
+    headerResultsTemplate: compileTemplate('headerResultsTemplate'),
+  };
+
   function checkAnswer() {
     // Evaluate the selected answer against the data store. If the answer is
     // correct, increment the counter and return True. Otherwise return false.
@@ -50,26 +60,13 @@ $(function () {
     // question.
     const shuffledAnswers =  _.shuffle(question.answers);
     const correctList = shuffledAnswers.map(a => a === question.correctAnswer);
-    return `
-          <fieldset name="quiz-question">
-            <legend class="question">${question.text}</legend>
-            <form>
-              <label for="option-1">
-              <input type="radio" name="q1" id="option-1" value="${shuffledAnswers[0]}" correct="${correctList[0]}">
-              <span>${shuffledAnswers[0]}</span></label>
-              <label for="option-2">
-              <input type="radio" name="q1" id="option-2" value="${shuffledAnswers[1]}" correct="${correctList[1]}">
-              <span>${shuffledAnswers[1]}</span></label>
-              <label for="option-3">
-              <input type="radio" name="q1" id="option-3" value="${shuffledAnswers[2]}" correct="${correctList[2]}">
-              <span>${shuffledAnswers[2]}</span></label>
-              <label for="option-4">
-              <input type="radio" name="q1" id="option-4" value="${shuffledAnswers[3]}" correct="${correctList[3]}">
-              <span>${shuffledAnswers[3]}</span></label>
-            </form>
-          </fieldset>
-        </div>
-    `;
+    const data = {
+      questionText: question.Text,
+      shuffledAnswers: shuffledAnswers,
+      correctList: correctList,
+    };
+
+    return TEMPLATES.questionTemplate(data);
   }
 
   function getNavButton() {
@@ -89,16 +86,11 @@ $(function () {
 
   function generateHeaderResultsTemplate() {
     // Populates the HTML used to display the user's progress in the header bar.
-    const qText = `${STORE.currentQuestion + 1} / ${QUESTIONS.length}`;
-    const correctText = `Score: ${STORE.correct}`;
-    const resultsHtml = `
-        <h1 class="col-3">History Quiz</h1>
-        <ul>
-          <li>Question ${qText}</li>
-          <li>${correctText}</li>
-        </ul>
-    `;
-    return resultsHtml;
+    const data = {
+      qText: `${STORE.currentQuestion + 1} / ${QUESTIONS.length}`,
+      correctText: `Score: ${STORE.correct}`,
+    };
+    return TEMPLATES.headerResultsTemplate(data);
   }
 
   function generateQuizNavTemplate() {
@@ -108,13 +100,7 @@ $(function () {
 
   function generateResultsTemplate() {
     // Generates the contents of a results pop out modal.
-    return `
-    <div class="modal-content">
-      <span>Thanks for playing, you got ${STORE.correct} questions right.<br><br>
-      <a href="">Try again?</a></span>
-      <span class="js-close-modal">&times;</span>
-    </div>
-    `;
+    return TEMPLATES.modalTemplate({ numberCorrect: STORE.correct });
   }
 
   function renderQuestion() {
