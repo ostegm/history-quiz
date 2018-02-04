@@ -12,7 +12,7 @@ const STORE = {
 };
 
 function checkAnswer() {
-  // Evaluate the selected answer against the data store. If the answer is 
+  // Evaluate the selected answer against the data store. If the answer is
   // correct, increment the counter and return True. Otherwise return false.
   const selected = $('input[name=q1]:checked').val();
   const correct = QUESTIONS[STORE.currentQuestion].correctAnswer;
@@ -24,17 +24,21 @@ function checkAnswer() {
 function showCorrect(selectedCorrectly) {
   // Modify the background color of the answers to indicate green for a correct
   // answer, red for an incorrect answer, and grey for all other choices.
-  // Additionally, show some text next to the answes indicating correct answers. 
+  // Additionally, show some text next to the answes indicating correct answers.
   if (selectedCorrectly === true) {
     $('input[name=q1]').parent().css('background-color', notSelectedColor);
     $('input[name=q1]:checked').parent().css('background-color', correctColor);
-    $('input[name=q1]:checked').parent().append('<span class="answer-indicator">You got it correct!</span');
+    $('input[name=q1]:checked')
+      .parent()
+      .append('<span class="answer-indicator">You got it correct!</span');
 
   } else {
-    let correctAnswer = QUESTIONS[STORE.currentQuestion].correctAnswer
+    let correctAnswer = QUESTIONS[STORE.currentQuestion].correctAnswer;
     $('input[name=q1]').parent().css('background-color', notSelectedColor);
     $('input[name=q1]:checked').parent().css('background-color', incorrectColor);
-    $('input[name=q1]:checked').parent().append(`<span class="answer-indicator">Sorry, that's incorrect. The correct answer was "${correctAnswer}"</span>`);
+    $('input[name=q1]:checked')
+      .parent()
+      .append(`<span class="answer-indicator">Sorry, that's incorrect. The correct answer was "${correctAnswer}"</span>`);
     $('input[name=q1][correct=true]').parent().css('background-color', correctColor);
   }
 }
@@ -95,7 +99,6 @@ function generateHeaderResultsTemplate() {
   return resultsHtml;
 }
 
-
 function generateQuizNavTemplate() {
   // Function to create the HTML used below the form for navigation.
   let navHtml = `<div class="col-12 quiz-nav-item">${getNavButton()}</div>`;
@@ -127,7 +130,7 @@ function renderQuestion() {
 }
 
 function handleStartButtonClicked() {
-  // Once the user begins the quiz, hides a start button and renders the first 
+  // Once the user begins the quiz, hides a start button and renders the first
   // question.
   $('.js-start-quiz').click(event => {
     $('.quiz-nav').toggleClass('hidden');
@@ -141,8 +144,8 @@ function showResultsModal() {
   // Generates the HTML for a modal and displays it to the user. Also kicks off
   // an event listener to allow the user to close the modal.
   const resultsHtml = generateResultsTemplate();
-  const modal = $('.js-results-modal')
-  modal.html(resultsHtml)
+  const modal = $('.js-results-modal');
+  modal.html(resultsHtml);
   modal.toggleClass('hidden');
   handleModalInteractions();
 };
@@ -150,8 +153,8 @@ function showResultsModal() {
 function handleModalInteractions() {
   // Listens for a close modal event.
   $('.js-results-modal').on('click', '.js-close-modal', event => {
-      $('.js-results-modal').toggleClass('hidden')
-  })
+      $('.js-results-modal').toggleClass('hidden');
+    });
 }
 
 function handleResetButtonClicked() {
@@ -162,7 +165,7 @@ function handleResetButtonClicked() {
 }
 
 function handleQuestionSubmit() {
-  // Handles error checking and determines the appropriate content to display 
+  // Handles error checking and determines the appropriate content to display
   // based on current app state.
   $('.quiz-nav').on('click', '.js-submit-answer', event => {
     if ($('input').is(':checked') === false) {
@@ -174,6 +177,7 @@ function handleQuestionSubmit() {
       STORE.state = 'results';
       showResultsModal();
     }
+
     const selectedCorrectly = checkAnswer();
     const resultsHtml = generateHeaderResultsTemplate();
     const nav = generateQuizNavTemplate();
